@@ -144,6 +144,7 @@ form.addEventListener('submit', (e) => {
           
         getMovies(searchURL+'&query='+searchTerm)
         h2.innerHTML = "résultat de votre recherche"
+        window.scrollTo(0, 500);
 
     }
 
