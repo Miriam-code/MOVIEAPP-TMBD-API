@@ -5,16 +5,12 @@ const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const IMG = 'https://image.tmdb.org/t/p/w1280';
 const YouTube = 'https://www.youtube.com/watch?v='
 const searchURL = BASE_URL + '/search/movie?'+API_KEY;
-
 const kids = BASE_URL+'/discover/movie?certification_country=US&certification.lte=G&sort_by=popularity.desc&'+API_KEY;
-
 const series_url ='https://api.themoviedb.org/3/trending/tv/week?'+API_KEY+'&language=fr-FR';
 
 
 const main = document.getElementById('main');
-
 const containerEl = document.querySelector('.movie-details-container');
-
 const form = document.getElementById('form');
 const search = document.getElementById('search');
 const h2 = document.querySelector('.h2');
@@ -63,8 +59,6 @@ function showMovies(data) {
             const movieId = img.id;
             showMovieDetails(movieId);
             containerEl.style.display = 'flex';
-            console.log(knowMore)
-            console.log(img.id)
             
         });
     });
@@ -95,8 +89,6 @@ function showMovieDetails(movieId) {
 
 
    fetch(credit).then(res => res.json()).then(creditData => {
-
-    console.log(creditData);
 
     const actors = creditData.cast.slice(0, 5);
 
@@ -132,8 +124,7 @@ function showMovieDetails(movieId) {
 
       movieImg.appendChild(iframe);
       containerEl.appendChild(movieImg);
-      containerEl.appendChild(movieDetailsEl);
-      console.log(data)      
+      containerEl.appendChild(movieDetailsEl);    
     })
     .catch(err => console.error(err));
 
@@ -148,7 +139,6 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const searchTerm = search.value;
-    console.log(searchTerm)
 
     if(searchTerm) {
           
@@ -372,8 +362,6 @@ function showMovieskids(data) {
           const movieId = img.id;
           showMovieDetails(movieId);
           containerEl.style.display = 'flex';
-          console.log(knowMore)
-          console.log(img.id)
           
       });
   });
@@ -388,7 +376,6 @@ getSeries(series_url)
 function getSeries(url) {
     fetch(url).then(res => res.json()).then(data => {
       showSeries(data.results);
-      console.log(data.results)
 })
 }
 
@@ -423,11 +410,9 @@ function showSeries(data) {
   knowMore.forEach(img => {
 
       img.addEventListener('click', () => {
-          const tv_id = img.id;
-          showDetails(tv_id);
-          containerEl.style.display = 'flex';
-          console.log(knowMore)
-          console.log(tv_id)
+        const tv_id = img.id;
+        showDetails(tv_id);
+        containerEl.style.display = 'flex';
           
       });
   });
@@ -436,61 +421,55 @@ function showSeries(data) {
 
 function showDetails(tv_id) {
 
-    containerEl.innerHTML = '';
+  containerEl.innerHTML = '';
    
-    const urls = `https://api.themoviedb.org/3/tv/${tv_id}?${API_KEY}`;
+  const urls = `https://api.themoviedb.org/3/tv/${tv_id}?${API_KEY}`;
 
-    const vid = `https://api.themoviedb.org/3/tv/${tv_id}/videos?${API_KEY}`;
+  const vid = `https://api.themoviedb.org/3/tv/${tv_id}/videos?${API_KEY}`;
    
-     fetch(urls).then(res => res.json()).then(datax => {
-
-        console.log(datax)
+  fetch(urls).then(res => res.json()).then(datax => {
    
-       const { name, vote_average, overview , backdrop_path, first_air_date } = datax;
+  const { name, vote_average, overview , backdrop_path, first_air_date } = datax;
 
-       fetch(vid).then(res => res.json()).then( dat =>{
+  fetch(vid).then(res => res.json()).then( dat =>{
     
    
-        const movieDetails= document.createElement('div');
+  const movieDetails= document.createElement('div');
+  
+  movieDetails.classList.add('moviedescript');
 
-        movieDetails.classList.add('moviedescript');
+  movieDetails.innerHTML = `
+    <div class='descript'>
+    <h3>${name}</h3>
+    <p>Note : ${Math.floor(vote_average)} | date de sortie : ${first_air_date}</p>
+    <p>${overview}</p>
+  </div>`;
 
-        movieDetails.innerHTML = `
-           <div class='descript'>
-           <h3>${name}</h3>
-           <p>Note : ${Math.floor(vote_average)} | date de sortie : ${first_air_date}</p>
-           <p>${overview}</p>
-           </div>
-        `;
-
-        console.log(movieDetails)
-
-        containerEl.style.backgroundImage = `url(${IMG+backdrop_path})`;
-        containerEl.appendChild(movieDetails);
+  containerEl.style.backgroundImage = `url(${IMG+backdrop_path})`;
+  containerEl.appendChild(movieDetails);
 
 
-        const movieImg = document.createElement('div');
-        movieImg.classList.add('movieimg');
+  const movieImg = document.createElement('div');
+  movieImg.classList.add('movieimg');
         
   
-        const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', `https://www.youtube.com/embed/${dat.results[0].key}?autoplay=1`);
-        iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
-        iframe.setAttribute('allowfullscreen', '');
-        iframe.setAttribute('title', name);
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('src', `https://www.youtube.com/embed/${dat.results[0].key}?autoplay=1`);
+  iframe.setAttribute('frameborder', '0');
+  iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('title', name);
   
-        movieImg.appendChild(iframe);
-        containerEl.appendChild(movieImg);
-        containerEl.appendChild(movieDetails);
+  movieImg.appendChild(iframe);
+  containerEl.appendChild(movieImg);
+ containerEl.appendChild(movieDetails);
 
-       })
+  })
            
-       })
-       .catch(err => console.error(err));
+  })
+  .catch(err => console.error(err));
    
-     window.scrollTo(0, 0);
-   
-    }
+  window.scrollTo(0, 0);
+}
 
 

@@ -59,10 +59,12 @@ header ul {
 
 }
 
-header li a {
+a {
     text-decoration: none;
     color: #fff;
+
 }
+
 
 .search{
     background-color: transparent;
@@ -119,10 +121,11 @@ main , .kids , .series {
     flex-grow: 1;
     flex-shrink: 0;
     flex-basis: 20%;
+    transition: all 300ms;
 }
 
 .movie:hover{
-    transform: translateY(-30px);
+    transform: scale(1.10)
 
 }
 
@@ -288,4 +291,52 @@ iframe {
     border-radius: 30px;
 }
 
+
+/****************/
+  
+/*.movie {
+    box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    transition: .2s all;
+}
+  
+main:hover .movie{
+    filter: blur(3px);
+    opacity: .5;
+    transform: scale(.98);
+    box-shadow: none;
+}
+  
+main:hover .movie:hover {
+    transform: scale(1);
+    filter: blur(0px);
+    opacity: 1;
+    box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.125);
+}*/
+
+
+  
+.movie {
+    --hoverContorno: #959595;
+  }
+  
+.movie:hover,
+.movie:focus {
+    -webkit-animation: cardAnimacion 1.4s;
+    animation: cardAnimacion 1.4s;
+    box-shadow: 0 0 0 0.8em rgba(255, 255, 255, 0);
+    border-radius: 10px;
+}
+  
+@-webkit-keyframes cardAnimacion {
+    0% {
+      box-shadow: 0 0 0 0 var(--hoverContorno);
+    }
+}
+  
+@keyframes cardAnimacion {
+    0% {
+      box-shadow: 0 0 0 0 var(--hoverContorno);
+    }
+}
 
